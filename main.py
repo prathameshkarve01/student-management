@@ -37,10 +37,24 @@ def home(request: Request):
     )
 # Dashboard route with query parameter
 @app.get("/dashboard")
-def dashboard(role: str = Query(...)):
-    return {
-        "Selected Role": role
-    }
+def dashboard(
+    request: Request,
+    role: str = Query(...),
+    db: Session = Depends(get_db)
+):
+
+    students = db.query(Student).all()
+
+    return templates.TemplateResponse(
+        request=request,
+        name="dashboard.html",
+        context={
+            "request": request,
+            "role": role,
+            "students": students
+        }
+    )
+
 # Get all students
 @app.get("/students")
 def get_students(db: Session = Depends(get_db)):
