@@ -1,23 +1,36 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Student Management System</title>
 </head>
+
 <body>
 
-<h1>Student Management System</h1>
+    <h1>🎓 Student Management System</h1>
 
-<form action="/students" method="post">
+    <h2>Select Your Role</h2>
 
-    <label>Name</label><br>
-    <input type="text" name="name"><br><br>
+    <form action="/dashboard" method="get">
 
-    <label>Course</label><br>
-    <input type="text" name="course"><br><br>
+        <select name="role">
 
-    <button type="submit">Add Student</button>
+            <option value="admin">Admin</option>
 
-</form>
+            <option value="student">Student</option>
+
+            <option value="user">User</option>
+
+        </select>
+
+        <br><br>
+
+        <button type="submit">
+            Continue
+        </button>
+
+    </form>
 
 </body>
+
 </html>

@@ -10,6 +10,8 @@ from fastapi.templating import Jinja2Templates
 #Importing the Schemas.py file to use the Pydantic models for request validation
 from schemas import StudentCreate
 
+from fastapi import Query
+
 app = FastAPI()
 #for templates
 templates = Jinja2Templates(directory="templates")
@@ -33,8 +35,12 @@ def home(request: Request):
         name="index.html",
         context={"request": request}
     )
-
-
+# Dashboard route with query parameter
+@app.get("/dashboard")
+def dashboard(role: str = Query(...)):
+    return {
+        "Selected Role": role
+    }
 # Get all students
 @app.get("/students")
 def get_students(db: Session = Depends(get_db)):
