@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, Request, Form
 from sqlalchemy.orm import Session
 
 from database import engine, SessionLocal
@@ -6,6 +6,9 @@ from models import Base, Student
 
 from fastapi import Request
 from fastapi.templating import Jinja2Templates
+
+#Importing the Schemas.py file to use the Pydantic models for request validation
+from schemas import StudentCreate
 
 app = FastAPI()
 #for templates
@@ -41,11 +44,15 @@ def get_students(db: Session = Depends(get_db)):
 
 # Add student
 @app.post("/students")
-def add_student(student: dict, db: Session = Depends(get_db)):
+def add_student(
+    name: str = Form(...),
+    course: str = Form(...),
+    db: Session = Depends(get_db)
+):
 
     new_student = Student(
-        name=student["name"],
-        course=student["course"]
+        name=name,
+        course=course
     )
 
     db.add(new_student)

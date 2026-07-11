@@ -5,23 +5,19 @@
 </head>
 <body>
 
-<h1>🎓 Student Management System</h1>
+<h1>Student Management System</h1>
 
-<hr>
+<form action="/students" method="post">
 
-<h2>Welcome!</h2>
+    <label>Name</label><br>
+    <input type="text" name="name"><br><br>
 
-<p>This project is built using:</p>
+    <label>Course</label><br>
+    <input type="text" name="course"><br><br>
 
-<ul>
-    <li>FastAPI</li>
-    <li>SQLite</li>
-    <li>HTML</li>
-</ul>
+    <button type="submit">Add Student</button>
 
-<button>Add Student</button>
-
-<button>View Students</button>
+</form>
 
 </body>
 </html>
