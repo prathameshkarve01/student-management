@@ -1,36 +1,27 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <title>Student Management System</title>
+    <title>Login</title>
 </head>
-
 <body>
 
-    <h1>🎓 Student Management System</h1>
+<h1>Student Management System</h1>
 
-    <h2>Select Your Role</h2>
+<h2>Login</h2>
 
-    <form action="/dashboard" method="get">
+<form action="/login" method="post">
 
-        <select name="role">
+    <label>Username</label><br>
+    <input type="text" name="username"><br><br>
 
-            <option value="admin">Admin</option>
+    <label>Password</label><br>
+    <input type="password" name="password"><br><br>
 
-            <option value="student">Student</option>
+    <button type="submit">
+        Login
+    </button>
 
-            <option value="user">User</option>
-
-        </select>
-
-        <br><br>
-
-        <button type="submit">
-            Continue
-        </button>
-
-    </form>
+</form>
 
 </body>
-
 </html>

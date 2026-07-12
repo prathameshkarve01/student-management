@@ -9,6 +9,7 @@
 
 <h2>{{ role|capitalize }} Dashboard</h2>
 
+
 {% if role == "admin" %}
 
 <h3>Admin Panel</h3>
@@ -21,18 +22,27 @@
     <label>Course</label><br>
     <input type="text" name="course"><br><br>
 
+    <label>Username</label><br>
+    <input type="text" name="username"><br><br>
+
+    <label>Password</label><br>
+    <input type="password" name="password"><br><br>
+
     <button type="submit">Add Student</button>
 
 </form>
 
-<br>
-<hr>
 
 {% elif role == "student" %}
 
+<h3>Welcome {{ student_name }}</h3>
+
 <h3>Student Permissions</h3>
 
-<button>Edit My Profile</button>
+<a href="/edit/{{ user_student_id }}">
+    <button>Edit My Profile</button>
+</a>
+
 
 {% else %}
 
@@ -42,7 +52,9 @@
 
 {% endif %}
 
+
 <hr>
+
 
 <h2>Student List</h2>
 
@@ -55,6 +67,7 @@
     <th>Actions</th>
 </tr>
 
+
 {% for student in students %}
 
 <tr>
@@ -65,19 +78,42 @@
 
 <td>{{ student.course }}</td>
 
+
 <td>
+
+{% if role == "admin" %}
+
+    <a href="/edit/{{ student.id }}">Edit</a>
+    |
+    <a href="/delete/{{ student.id }}">Delete</a>
+
+
+{% elif role == "student" and student.id == user_student_id %}
+
     <a href="/edit/{{ student.id }}">Edit</a>
 
-|
 
-<a href="/delete/{{ student.id }}">Delete</a>
+{% else %}
+
+    View Only
+
+{% endif %}
+
 </td>
+
 
 </tr>
 
 {% endfor %}
 
+
 </table>
+
+
+<br>
+
+<a href="/logout">Logout</a>
+
 
 </body>
 </html>
