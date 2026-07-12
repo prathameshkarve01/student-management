@@ -11,11 +11,22 @@
 
 {% if role == "admin" %}
 
-<h3>Admin Permissions</h3>
+<h3>Admin Panel</h3>
 
-<button>Add Student</button>
-<button>Edit Student</button>
-<button>Delete Student</button>
+<form action="/students" method="post">
+
+    <label>Name</label><br>
+    <input type="text" name="name"><br><br>
+
+    <label>Course</label><br>
+    <input type="text" name="course"><br><br>
+
+    <button type="submit">Add Student</button>
+
+</form>
+
+<br>
+<hr>
 
 {% elif role == "student" %}
 
@@ -41,6 +52,7 @@
     <th>ID</th>
     <th>Name</th>
     <th>Course</th>
+    <th>Actions</th>
 </tr>
 
 {% for student in students %}
@@ -52,6 +64,14 @@
 <td>{{ student.name }}</td>
 
 <td>{{ student.course }}</td>
+
+<td>
+    <a href="/edit/{{ student.id }}">Edit</a>
+
+|
+
+<a href="/delete/{{ student.id }}">Delete</a>
+</td>
 
 </tr>
 

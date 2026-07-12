@@ -11,6 +11,8 @@ from fastapi.templating import Jinja2Templates
 from schemas import StudentCreate
 
 from fastapi import Query
+#Importing RedirectResponse to redirect the user to a different page after a successful operation
+from fastapi.responses import RedirectResponse
 
 app = FastAPI()
 #for templates
@@ -79,7 +81,64 @@ def add_student(
     db.commit()
     db.refresh(new_student)
 
-    return {
-        "message": "Student added successfully",
-        "student": new_student
-    }
+    return RedirectResponse(
+    url="/dashboard?role=admin",
+    status_code=303
+)
+
+# Delete student
+@app.get("/delete/{student_id}")
+def delete_student(
+    student_id: int,
+    db: Session = Depends(get_db)
+):
+
+    student = db.query(Student).filter(Student.id == student_id).first()
+
+    if student:
+        db.delete(student)
+        db.commit()
+
+    return RedirectResponse(
+        url="/dashboard?role=admin",
+        status_code=303
+    )
+
+# Edit student
+@app.get("/edit/{student_id}")
+def edit_student(
+    student_id: int,
+    request: Request,
+    db: Session = Depends(get_db)
+):
+
+    student = db.query(Student).filter(Student.id == student_id).first()
+
+    return templates.TemplateResponse(
+        request=request,
+        name="edit.html",
+        context={
+            "request": request,
+            "student": student
+        }
+    )
+@app.post("/update/{student_id}")
+def update_student(
+    student_id: int,
+    name: str = Form(...),
+    course: str = Form(...),
+    db: Session = Depends(get_db)
+):
+
+    student = db.query(Student).filter(Student.id == student_id).first()
+
+    if student:
+        student.name = name
+        student.course = course
+
+        db.commit()
+
+    return RedirectResponse(
+        url="/dashboard?role=admin",
+        status_code=303
+    )
