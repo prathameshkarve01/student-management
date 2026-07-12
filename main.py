@@ -151,22 +151,30 @@ def add_student(
     course: str = Form(...),
     username: str = Form(...),
     password: str = Form(...),
+    role: str = Form(...),
     db: Session = Depends(get_db)
 ):
 
-    role = request.session.get("role")
+    logged_in_role = request.session.get("role")
 
-    if role != "admin":
+
+    if logged_in_role != "admin":
         return {"message": "Access Denied"}
 
-    new_student = Student(
-        name=name,
-        course=course
-    )
+    student_id = None
 
-    db.add(new_student)
-    db.commit()
-    db.refresh(new_student)
+    if role == "student":
+
+        new_student = Student(
+            name=name,
+            course=course
+            )
+
+        db.add(new_student)
+        db.commit()
+        db.refresh(new_student)
+
+        student_id = new_student.id
 
     #create login account for the student
     hashed_password = bcrypt.hashpw(
@@ -177,8 +185,8 @@ def add_student(
     new_user = User(
         username=username,
         password=hashed_password,
-        role="student",
-        student_id=new_student.id
+        role=role,
+        student_id=student_id
     )
 
     db.add(new_user)
