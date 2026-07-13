@@ -1,8 +1,11 @@
-from database import SessionLocal
-from models import User
+from database import engine, SessionLocal
+from models import Base, User
 from passlib.context import CryptContext
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+# Create tables if they don't exist
+Base.metadata.create_all(bind=engine)
 
 db = SessionLocal()
 
