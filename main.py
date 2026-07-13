@@ -69,13 +69,21 @@ def login(
 
     # Check if user exists
     if not user:
+        print("User not found!")
         return {"message": "Invalid Username or Password"}
+
+    print("User object:", user)
     print("Password entered:", password)
-    # Verify hashed password
-    if not bcrypt.checkpw(
+    print("Stored hash:", user.password)
+
+    password_match = bcrypt.checkpw(
         password.encode(),
         user.password.encode()
-    ):
+    )
+
+    print("Password matches:", password_match)
+
+    if not password_match:
         return {"message": "Invalid Username or Password"}
 
     # Store login details in session
