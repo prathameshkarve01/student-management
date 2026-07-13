@@ -1,0 +1,17 @@
+# Python virtual environment
+venv/
+
+# Python cache files
+__pycache__/
+*.pyc
+
+# SQLite database
+students.db
+
+# Environment variables
+.env
+
+# Temporary scripts
+create_guest.py
+create_users.py
+hash_existing_passwords.py
