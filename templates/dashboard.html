@@ -1,14 +1,155 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Dashboard</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#4facfe,#00f2fe);
+    padding:40px;
+}
+
+.container{
+    max-width:1100px;
+    margin:auto;
+    background:white;
+    padding:35px;
+    border-radius:15px;
+    box-shadow:0 10px 25px rgba(0,0,0,.2);
+}
+
+h1{
+    text-align:center;
+    color:#2c3e50;
+    margin-bottom:10px;
+}
+
+h2{
+    color:#4facfe;
+    margin-bottom:20px;
+}
+
+h3{
+    color:#333;
+    margin:20px 0 10px;
+}
+
+form{
+    margin-top:20px;
+}
+
+label{
+    font-weight:bold;
+    color:#444;
+}
+
+input,select{
+    width:100%;
+    padding:12px;
+    margin-top:8px;
+    margin-bottom:18px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    font-size:15px;
+}
+
+input:focus,
+select:focus{
+    outline:none;
+    border-color:#4facfe;
+    box-shadow:0 0 8px rgba(79,172,254,.4);
+}
+
+button{
+    background:#4facfe;
+    color:white;
+    border:none;
+    padding:12px 20px;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:15px;
+    transition:.3s;
+}
+
+button:hover{
+    background:#2d8cf0;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+}
+
+table th{
+    background:#4facfe;
+    color:white;
+    padding:12px;
+}
+
+table td{
+    padding:12px;
+    border-bottom:1px solid #ddd;
+}
+
+table tr:nth-child(even){
+    background:#f7f9fc;
+}
+
+table tr:hover{
+    background:#eef7ff;
+}
+
+a{
+    text-decoration:none;
+    color:#4facfe;
+    font-weight:bold;
+}
+
+a:hover{
+    color:#2d8cf0;
+}
+
+.logout{
+    display:inline-block;
+    margin-top:25px;
+    background:#e74c3c;
+    color:white;
+    padding:10px 18px;
+    border-radius:8px;
+}
+
+.logout:hover{
+    background:#c0392b;
+    color:white;
+}
+
+hr{
+    margin:35px 0;
+    border:none;
+    border-top:1px solid #ddd;
+}
+
+</style>
+
 </head>
 <body>
+
+<div class="container">
 
 <h1>🎓 Student Management System</h1>
 
 <h2>{{ role|capitalize }} Dashboard</h2>
-
 
 {% if role == "admin" %}
 
@@ -16,30 +157,28 @@
 
 <form action="/students" method="post">
 
-    <label>Name</label><br>
-    <input type="text" name="name"><br><br>
+<label>Name</label>
+<input type="text" name="name" required>
 
-    <label>Course</label><br>
-    <input type="text" name="course"><br><br>
+<label>Course</label>
+<input type="text" name="course" required>
 
-    <label>Username</label><br>
-    <input type="text" name="username"><br><br>
+<label>Username</label>
+<input type="text" name="username" required>
 
-    <label>Password</label><br>
-    <input type="password" name="password"><br><br>
+<label>Password</label>
+<input type="password" name="password" required>
 
-    <label>Role</label><br>
-    <select name="role">
-        <option value="student">Student</option>
-        <option value="user">User (Read Only)</option>
-    </select>
+<label>Role</label>
 
-    <br><br>
+<select name="role">
+    <option value="student">Student</option>
+    <option value="user">User (Read Only)</option>
+</select>
 
-    <button type="submit">Create Account</button>
+<button type="submit">Create Account</button>
 
 </form>
-
 
 {% elif role == "student" %}
 
@@ -48,9 +187,8 @@
 <h3>Student Permissions</h3>
 
 <a href="/edit/{{ user_student_id }}">
-    <button>Edit My Profile</button>
+    <button type="button">Edit My Profile</button>
 </a>
-
 
 {% else %}
 
@@ -60,13 +198,11 @@
 
 {% endif %}
 
-
 <hr>
-
 
 <h2>Student List</h2>
 
-<table border="1">
+<table>
 
 <tr>
     <th>ID</th>
@@ -74,7 +210,6 @@
     <th>Course</th>
     <th>Actions</th>
 </tr>
-
 
 {% for student in students %}
 
@@ -86,42 +221,35 @@
 
 <td>{{ student.course }}</td>
 
-
 <td>
 
 {% if role == "admin" %}
 
-    <a href="/edit/{{ student.id }}">Edit</a>
-    |
-    <a href="/delete/{{ student.id }}">Delete</a>
-
+<a href="/edit/{{ student.id }}">✏️ Edit</a>
+&nbsp; | &nbsp;
+<a href="/delete/{{ student.id }}">🗑 Delete</a>
 
 {% elif role == "student" and student.id == user_student_id %}
 
-    <a href="/edit/{{ student.id }}">Edit</a>
-
+<a href="/edit/{{ student.id }}">✏️ Edit</a>
 
 {% else %}
 
-    View Only
+View Only
 
 {% endif %}
 
 </td>
 
-
 </tr>
 
 {% endfor %}
 
-
 </table>
 
+<a href="/logout" class="logout">Logout</a>
 
-<br>
-
-<a href="/logout">Logout</a>
-
+</div>
 
 </body>
 </html>
