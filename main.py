@@ -27,8 +27,11 @@ app.add_middleware(
 #for templates
 templates = Jinja2Templates(directory="templates")
 import os
+import logging
 
-print("Database path:", os.path.abspath("students.db"))
+# Configure logging (avoid printing sensitive information)
+logging.basicConfig(level=logging.INFO)
+logging.info("Database path: %s", os.path.abspath("students.db"))
 Base.metadata.create_all(bind=engine)
 
 
@@ -62,15 +65,12 @@ def login(
     user = db.query(User).filter(
         User.username == username
     ).first()
-    print("Username entered:", username)
-
-    if user:
-        print("Password in DB:", user.password)
+    logging.info("Login attempt for username: %s", username)
 
     # Check if user exists
     if not user:
         return {"message": "Invalid Username or Password"}
-    print("Password entered:", password)
+    logging.info("Authenticating user %s", username)
     # Verify hashed password
     if not bcrypt.checkpw(
         password.encode(),
