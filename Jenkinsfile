@@ -4,11 +4,6 @@ pipeline {
 
     stages {
 
-        stage('Clean Workspace') {
-            steps {
-                sh 'rm -rf student-management'
-            }
-        }
 
         stage('Deploy to EC2') {
             steps {
