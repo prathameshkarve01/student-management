@@ -161,20 +161,17 @@ def add_student(
     if logged_in_role != "admin":
         return {"message": "Access Denied"}
 
-    student_id = None
 
-    if role == "student":
+    new_student = Student(
+    name=name,
+    course=course
+    )
 
-        new_student = Student(
-            name=name,
-            course=course
-            )
+    db.add(new_student)
+    db.commit()
+    db.refresh(new_student)
 
-        db.add(new_student)
-        db.commit()
-        db.refresh(new_student)
-
-        student_id = new_student.id
+    student_id = new_student.id
 
     #create login account for the student
     hashed_password = bcrypt.hashpw(
