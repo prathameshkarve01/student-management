@@ -13,7 +13,7 @@ from fastapi import Query
 #Importing RedirectResponse to redirect the user to a different page after a successful operation
 from fastapi.responses import RedirectResponse
 
-# Importing SessionMiddleware to manage user sessions.
+# Importing SessionMiddleware to manage user sessions
 from starlette.middleware.sessions import SessionMiddleware
 
 import bcrypt
