@@ -13,7 +13,7 @@ pipeline {
         stage('Deploy to EC2') {
             steps {
                 sh '''
-                    ssh -o StrictHostKeyChecking=no -i /var/lib/jenkins/student-management.pem admin@13.200.222.165 << EOF
+                    ssh -o StrictHostKeyChecking=no -i /var/lib/jenkins/student-management.pem admin@13.200.222.165/ << EOF
 
                     cd ~
 
@@ -39,7 +39,8 @@ pipeline {
                     kill \$(lsof -t -i:8000)
 
                     nohup ./venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000 > app.log 2>&1 &
-EOF
+
+                    EOF
                 '''
             }
         }
