@@ -37,8 +37,8 @@ pipeline {
                     sudo apt install lsof -y
 
                     PID=$(lsof -t -i:8000)
-                    if[ -n "$PID"]; then
-                        kill "$PID"
+                    if[ -n "$PID" ]; then
+                        kill -9 $PID
                     fi
 
                     nohup ./venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000 > app.log 2>&1 &
