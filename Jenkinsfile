@@ -12,8 +12,6 @@ pipeline {
 
                     cd ~
 
-                    rm -rf student-management
-
                     if [ -d "student-management" ]; then
                         cd student-management
                     else
