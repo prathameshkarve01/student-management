@@ -36,13 +36,8 @@ pipeline {
 
                     sudo apt install lsof -y
 
-                    PID=$(lsof -t -i:8000)
-
-                    if [ -n "$PID" ]; then
-                        echo "Stopping process $PID"
-                        kill -9 "$PID"
-                        sleep 5
-                    fi
+                    fuser -k 8000/tcp || true
+                    sleep 5
 
                     nohup ./venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000 > app.log 2>&1 &
 
